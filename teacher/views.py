@@ -5,15 +5,11 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.db.models import Q
-# from django.contrib import messages
 
 import io
 import csv
 import os
-# import uuid
-# import json
 import sys
-# import re
 
 from .models import *
 from .forms import *
