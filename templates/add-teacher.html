@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %} Add Teachers {% endblock %}
+
+{% block content %}
+
+<div class="app-details">
+    <div class="container">
+        <p class="h3">Teachers Adding Form</p>
+        <div class="card add_form">
+            <form id="create-form" class="col-md-8" action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form }}
+                <br/><br/>
+                <div class="container text-center">
+                    <button type='submit' name='upload' class='btn btn-primary reg_but'>Submit</button>
+                </div>
+            </form>
+            <div class="col-md-4 error_log">
+                <div class="alert alert-info reg_but reg_but_n" role="alert">
+                    <p class="email_error text-danger"></p>
+                    <p class="email_exists text-danger"></p>
+                    <p class="phone_error text-danger"></p>
+                    <p class="phone_exists text-danger"></p>
+                    <p class="subject_max text-danger"></p>
+                </div>
+                {% if user.is_authenticated %}
+                    <div>
+                        <p class="h5">Bulk Upload</p>
+                        <form id="create-form" class="col-md-8" action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" ID="fileSelect" name="bulk_csv" accept=".xlsx, .xls, .csv"/ required="">
+                            <button type='submit' name='bulk' class='btn btn-primary'>Upload</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <p class="h5">Bulk Upload</p>
+                    <p>Available Only for Logged user</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

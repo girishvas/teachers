@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %} Teacher Details {% endblock %}
+
+{% block content %}
+
+<div class="app-details">
+    <div class="container">
+        <div class="card">
+            <img src="/media/{{teacher.profile}}" class="card-img-left" alt="Profile_image" />
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>First Name</strong><span>{{teacher.first_name}}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Last Name</strong><span>{% if teacher.last_name %}{{teacher.last_name}}{% else %}--{% endif %}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Email</strong><span>{{teacher.email}}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Phone</strong><span>{{teacher.phone_number}}</span>
+                    </li>
+                    <li class="list-group-item list-subject">
+                        <strong>Subject</strong>
+                        <ol>
+                            {% for subject in teacher.subjects.all %}<li>{{ subject }}</li>{% endfor %}
+                        </ol>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

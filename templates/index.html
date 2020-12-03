@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %} Teacher Management {% endblock %}
+
+{% block content %}
+
+<div class="app-index">
+    <div class="container">
+        <form action="" method="GET" class="input-group mb-3">
+            <input type="text" name="search" value="{{search}}" class="form-control" placeholder="Search..." aria-label="Search" aria-describedby="button-search" required />
+            <div class="input-group-append">
+                <button class="btn btn-outline-primary" type="submit" id="button-search">
+                    Search
+                </button>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Sl.</th>
+                        <th scope="col">Profile</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Room No.</th>
+                        <th scope="col">Subject Thoght</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for teacher in teacher %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <th scope="row">
+                                <a href="/teacher/{{teacher.id}}/">
+                                    <img src="/media/{{teacher.profile}}" alt="profile" class="img-thumbnail" />
+                                </a>
+                            </th>
+                            <td><a href="/teacher/{{teacher.id}}/">{{teacher.first_name}}</a></td>
+                            <td>{% if teacher.last_name %}{{teacher.last_name}}{% else %}--{% endif %}</td>
+                            <td>{{teacher.email}}</td>
+                            <td>{{teacher.phone_number}}</td>
+                            <td>{{teacher.room_number}}</td>
+                            <td>
+                                {% for subject in teacher.subjects.all %}{{ subject }}{{ forloop.last|yesno:",&#44; "|safe }}{% endfor %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <th scope="row" colspan="8"> No Teachers Data available</th>
+                        </th>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12 search_pagination">
+            <div class="pagination_outer">
+                <span class="step-links pull-left">
+                    <span class="current">
+                        Page <b>{{ teacher.number }}</b> - {{ teacher.paginator.num_pages }} of <b>{{ teacher.paginator.count }}</b> teachers
+                    </span>
+                </span>
+                <div class="pagination_block">
+                    {% if not teacher.paginator.num_pages == 1 %}
+                        <ul class="pagination pull-right">
+                            {% if teacher.has_previous %}
+                                <li><a href="?page={{ teacher.previous_page_number }}"><i class="fa fa-chevron-left" aria-hidden="true"></i> </a></li>
+                            {% else %}
+                                <li class="disabled"><span><i class="fa fa-chevron-left" aria-hidden="true"></i> </span></li>
+                            {% endif %}
+                            {% if teacher.number|add:'-1' > 1 %}
+                                <li><a href="?page={{ teacher.number|add:'-2' }}">&hellip;</a></li>
+                            {% endif %}
+                            {% for i in teacher.paginator.page_range %}
+                                {% if teacher.number == i %}
+                                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                {% elif i > teacher.number|add:'-2' and i < teacher.number|add:'2' %}
+                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if teacher.paginator.num_pages > teacher.number|add:'1' %}
+                                <li><a href="?page={{ teacher.number|add:'2' }}">&hellip;</a></li>
+                            {% endif %}
+                            {% if teacher.has_next %}
+                                <li><a href="?page={{ teacher.next_page_number }}"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+                            {% else %}
+                                <li class="disabled"><span><i class="fa fa-chevron-right" aria-hidden="true"></i></span></li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
